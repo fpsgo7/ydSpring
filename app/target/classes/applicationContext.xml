@@ -14,4 +14,7 @@
 	 지정된 페키지의 클래스들에서 빈으로 등록할 대상들을 찾는다.
 	 해당 패키지 클래스에 @Component 어노테이션이 있다면 빈 등록 대상이 된다.-->
 	<context:component-scan base-package="com.yedam.app.spring.anotation" />
+	
+	<!-- 자바 베이스 방식 -->
+	<context:component-scan base-package="com.yedam.app.spring.javabase" />
 </beans>
