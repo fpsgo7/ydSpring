@@ -8,7 +8,15 @@
 	<!-- xml 방식으로 bean 등록하기 -->
 	<beans:bean id="tv" class="com.yedam.app.spring.SpringTV"/>
 	<!-- DI XML 방식 -->
-	<!-- 어노테이션 방식을 위해서 제거하였다. -->
+	<!--  
+	<bean id="cf" class="com.yedam.app.spring.xml.Chef"/>
+	<bean class="com.yedam.app.spring.xml.Restaurant">
+		생성자 주입
+		<constructor-arg ref="cf" />
+		세터 주입
+		<property name = "chef" ref="cf" />
+	</bean>
+	-->
 
 	<!--  DI 어노테이션방식
 	 지정된 페키지의 클래스들에서 빈으로 등록할 대상들을 찾는다.
