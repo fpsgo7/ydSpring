@@ -7,4 +7,13 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<!-- xml 방식으로 bean 등록하기 -->
 	<beans:bean id="tv" class="com.yedam.app.spring.SpringTV"/>
+	<!-- DI XML 방식 -->
+	<bean id="cf" class="com.yedam.app.spring.xml.Chef"/>
+	<bean class="com.yedam.app.spring.xml.Restaurant">
+		<!--  생성자 주입  -->
+		<!-- <constructor-arg ref="cf" /> -->
+		<!-- 세터 주입 -->
+		<!--  name 에 맞춰 setChef() 메서드를 찾는다. -->
+		<property name = "chef" ref="cf" />
+	</bean>
 </beans>
