@@ -15,7 +15,7 @@ public interface EmpMapper {
 	public int insertEmpInfo(EmpVO empVO);
 	// 수정 
 	// @Param은 xml 내부에서 사용할 이름을 결정한다.
-	public int updateEmpInfo(@Param("") int empId,@Param("") EmpVO empVO);
+	public int updateEmpInfo(@Param("eid") int empId,@Param("emp") EmpVO empVO);
 	// 삭제
 	public int deleteEmpInfo(int empId);
 }
