@@ -2,6 +2,8 @@ package com.yedam.app.emp.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +22,7 @@ public class EmpVO {
 	private String lastName;// 성 not null
 	private String email;// 이메일 not null
 	private String phoneNumber;// 연락처
+	@DateTimeFormat(pattern = "yyyy-mm-dd")// 쿼리 파라미터용
 	private Date hireDate;// 입사일자 : not null
 	private String jobId;// 업무 : not null, 외래키
 	private Double salary;// 급여 : > 0
