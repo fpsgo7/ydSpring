@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!-- xmlns:th="http://www.thymeleaf.org 만 추가되 있다면 알아서 타임리프를 인식한다. -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+ 	<head>
+ 		<meta charset="UTF-8">
+ 		<title>Title</title>
+ 	</head>
+ 	<body>
+ 		<h1>타임리프 테스트</h1>
+ 		<th:block th:each="num,sts: ${#numbers.sequence(1,5)}">
+ 			<p th:text="${num}"/>
+			<p th:text="${sts.count}"/>
+			<p th:text="${sts.even}"/>
+ 		</th:block>
+
+		<p th:text="${emp.lastName + '님'}"/>
+		<!-- contextPath를 고려해서 만들어준다.
+		 	즉앞에 contextPath가 있다면 붙여준다. -->
+		<a th:href="@{/empList}">전체조회 @{}사용</a>
+		<a href="/empList">전체조회</a>
+ 	</body>
+</html>
