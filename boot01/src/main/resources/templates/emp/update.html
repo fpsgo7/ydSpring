@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <form name="updateForm" th:object="${emp}">
+    <h3>사원 정보 수정</h3>
+    <div>
+      <lable for="eid">사원번호</lable>
+      <input type="number" id="eid" th:field="*{employeeId}" readonly>
+    </div>
+    <div>
+      <lable for="ename">이름</lable>
+      <input type="text" id="ename" th:field="*{lastName}">
+    </div>
+    <div>
+      <lable for="email">이메일</lable>
+      <input type="email" id="email" th:field="*{email}">
+    </div>
+    <div>
+      <lable for="hDate">입사일자</lable>
+      <!-- field를 통해 가져올떄는 VO의 지정한 형식이 있다면 그 형식으로
+       데이터를 가져와준다.  -->
+      <input type="date" id="hDate" th:field="*{hireDate}" >
+    </div>
+    <div>
+      <lable for="job">업무</lable>
+      <input type="text" id="job" th:field="*{jobId}">
+    </div>
+    <div>
+      <lable for="sal">급여</lable>
+      <input type="number" step="0.01" min="1" id="sal" th:field="*{salary}">
+    </div>
+    <div>
+      <button type="button" id="updateBtn">저장</button>
+    </div>
+  </form>
+  <script>
+    $('#updateBtn').on('click', updateAjax);
+
+    function updateAjax(event){
+      // 1) 보낼 데이터 가져오기
+      let dataObj = getFormData();
+      // 2) AJAX 요청
+      $.ajax("empUpdate",{
+        type : 'post', // method
+        // 쿼리 스트링 방식
+        //data : dataObj // 객체 => QueryString 
+      
+        // json 방식 : @RequestBody
+        contentType : 'application/json',
+        data:JSON.stringify(dataObj)
+      })
+      .done((data)=>{
+        if(data.result){
+          alert("성공적으로 수정되었습니다.");
+        }else{
+          alert("수정되지 않았습니다.");
+        }
+      })
+      .fail((err)=>console.log(err));
+    }
+
+    // form 태그로부터 정보를 가져온다.(배열 방식으로)
+    function getFormData(){
+      let formAry = $('form[name="updateForm"]').serializeArray();
+      /* 가져오는 데이터 예시
+       [ {name: "employeeId", value:"100"},
+        {name: "lastName", value:"King"},
+        ..]
+      */
+      
+      // 배열을 객체로 바꾸기
+      let formObj = {};
+      $.each(formAry, function(idx,tag){
+        // tag) {name: "employeeId", value:"100"}
+        //formObj[tag["name"]] = tag["value"]; // 방법 1
+        formObj[tag.name] = tag.value; // 방법2
+        // 결과 formObj["employeeId"] = "100";
+      });
+      return formObj;
+    }
+  </script>
+</body>
+</html>

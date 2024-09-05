@@ -34,14 +34,14 @@ public class EmpServiceImpl implements EmpService{
 	public int empInsert(EmpVO empVO) {
 		int result = empMapper.insertEmpInfo(empVO);
 		// 등록이 성공했다면 등록한 대상의 기본키를 반환할 것이다.
-		return result == 1 ? empVO.getDepartmentId() : -1;
+		return result == 1 ? empVO.getEmployeeId() : -1;
 	}
 
 	@Override
 	public Map<String, Object> empUpdate(EmpVO empVO) {
 		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
-		int result = empMapper.updateEmpInfo(empVO.getDepartmentId(), empVO);
+		int result = empMapper.updateEmpInfo(empVO.getEmployeeId(), empVO);
 		
 		if(result == 1) {
 			isSuccessed = true;

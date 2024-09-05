@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset='utf-8'>
+  <meta name="ctxPath" th:value="${contextPath}">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <div>
+    <h3>전체 사원 조회</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>사원번호</th>
+          <th>이름</th>
+          <th>입사일자</th>
+          <th>업무</th>
+        </tr>
+      </thead>
+      <tbody>
+        <th:block th:each="emp, sts : ${emps}">
+          <!-- 링크 표현식에서 변수표현식을 같이사용하고자할겨우 ()으로 구역을 나눈다.-->
+          <!--<tr th:onclick="|location.href='@{/empInfo(employeeId=${emp.employeeId})}'|">-->
+          <tr>
+            <td>[[${sts.count}]]</td>
+            <td th:text="${emp.employeeId}"/>
+            <td th:text="${emp.lastName}"/>
+            <!--/* th:text 대신 [[]] 중첩대괄호를 활용하여 출력도 가능하다.*/-->
+            <!-- 날자형 타입 변수에 #dates를 적용하여 원하는 형태로 
+             출력할 수 있다.-->
+            <td>[[${#dates.format(emp.hireDate,"yyyy년MM월dd일")}]]</td>
+            <td>[[${emp.jobId}]]</td> 
+          </tr>
+        </th:block>
+      </tbody>
+    </table>
+  </div>
+  <script>
+
+    // jquery 방식 사용하기
+    // 매타태그의 컨택스트 패스값 가져오기 (meta태그는 val()이 지원되지 않는다)
+    const context = $('meta[name="ctxPath"]').attr('value');
+    $('tbody > tr').on('click',function(event){
+      let trTag = event.currentTarget;
+      let eid = $(trTag).children().eq(1).text();
+      let url = context + '/empInfo?employeeId=' + eid;
+      location.href=url;
+    });
+  </script>
+</body>
+</html>

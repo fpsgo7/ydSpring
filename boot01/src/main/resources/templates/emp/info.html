@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+</head>
+<body>
+  <div>
+    <h3>사원 정보 조회</h3>
+    <div>
+      <lable for="eid">사원번호</lable>
+      <input type="number" id="eid" th:value="${emp.employeeId}" readonly>
+    </div>
+    <div>
+      <lable for="ename">이름</lable>
+      <input type="text" id="ename" th:value="${emp.lastName}" readonly>
+    </div>
+    <div>
+      <lable for="email">이메일</lable>
+      <input type="email" id="email" th:value="${emp.email}" readonly>
+    </div>
+    <div>
+      <lable for="hDate">입사일자</lable>
+      <!-- 날짜포맷을 맞춰줘야한다. (원하는 포맷은 콘솔 경고창에서 알려준다.) -->
+      <input type="date" id="hDate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}"  readonly>
+    </div>
+    <div>
+      <lable for="job">업무</lable>
+      <input type="text" id="job" th:value="${emp.jobId}" readonly>
+    </div>
+    <div>
+      <lable for="sal">급여</lable>
+      <input type="number" step="0.01" min="1" id="sal" th:value="${emp.salary}" readonly>
+    </div>
+    <div>
+      <button type="button" th:onclick="|location.href='@{/empUpdate(employeeId=${emp.employeeId})}'|">수정</button>
+      <button type="button" th:onclick="|location.href='@{/empList}'|">목록</button>
+      <button type="button" th:onclick="|location.href='@{/empDelete(employeeId=${emp.employeeId})}'|">삭제</button>
+    </div>
+  </div>
+</body>
+</html>
