@@ -2,7 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset='utf-8'>
-  <title></title>
+  <meta name="ctxPath" th:value="${contextPath}">
+  <title>deptList</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
   <div>
@@ -24,5 +26,14 @@
       </tbody>
     </table>
   </div>
+  <script>
+  	const context = $('meta[name="ctxPath"]').attr('value');
+  	$('tbody > tr').on('click',function(event){
+  		let trTag = event.currentTarget;
+  		let id = $(trTag).children().eq(0).text();
+  		let url = context + '/deptInfo?departmentId=' + id;
+  		location.href=url;
+  	});
+  </script>
 </body>
 </html>
