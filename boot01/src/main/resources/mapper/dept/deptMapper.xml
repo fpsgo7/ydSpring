@@ -48,4 +48,18 @@
 			</if>
 		)
 	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateDeptInfo">
+		UPDATE departments
+		SET
+			department_name = #{dept.departmentName}
+			<if test="dept.managerId != null and !dept.managerId.equals('')">
+				, manager_id = #{dept.managerId}
+			</if>
+			<if test="dept.locationId != null and !dept.locationId.equals('')">
+				, location_id = #{dept.locationId}
+			</if>
+		WHERE department_id = #{id}
+	</update>
 </mapper>

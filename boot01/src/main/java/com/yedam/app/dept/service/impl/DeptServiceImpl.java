@@ -1,6 +1,8 @@
 package com.yedam.app.dept.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,20 @@ public class DeptServiceImpl implements DeptService{
 		// 부서번호를 반환하기위한 작업
 		int result = deptMapper.insertDeptInfo(deptVO);
 		return result == 1 ? deptVO.getDepartmentId() : -1;
+	}
+
+	@Override
+	public Map<String, Object> deptUpdate(DeptVO deptVO) {
+		Map<String, Object > map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = deptMapper.updateDeptInfo(deptVO.getDepartmentId(),deptVO);
+		
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", deptVO);
+		return map;
 	}
 
 }
