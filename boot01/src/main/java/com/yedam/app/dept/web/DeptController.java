@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.dept.service.DeptService;
@@ -71,4 +72,10 @@ public class DeptController {
 		return deptService.deptUpdate(deptVO);
 	}
 	// 삭제 - 처리
+	@GetMapping("deptDelete")
+	public String deptDelete(@RequestParam Integer departmentId) {
+		deptService.deptDelete(departmentId);
+		return "redirect:deptList";
+	}
+	
 }

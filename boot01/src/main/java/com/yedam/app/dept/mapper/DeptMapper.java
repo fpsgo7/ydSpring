@@ -16,6 +16,7 @@ public interface DeptMapper {
 	
 	// 수정
 	public int updateDeptInfo(@Param("id") Integer departmentId,@Param("dept") DeptVO deptVO);
-	
+
 	// 삭제
+	public int deleteDeptInfo(int deptId);
 }

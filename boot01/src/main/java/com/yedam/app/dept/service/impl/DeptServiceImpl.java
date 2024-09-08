@@ -51,4 +51,17 @@ public class DeptServiceImpl implements DeptService{
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> deptDelete(int empId) {
+		Map<String, Object> map = new HashMap<>();
+
+		int result = deptMapper.deleteDeptInfo(empId);
+		
+		// 삭제가 성공할경우 삭제한 대상의 아이디값을 반환한다.
+		if(result == 1) {
+			map.put("departmentId", empId);
+		}
+		return map;
+	}
+
 }

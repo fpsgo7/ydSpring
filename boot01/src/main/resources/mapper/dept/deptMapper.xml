@@ -62,4 +62,10 @@
 			</if>
 		WHERE department_id = #{id}
 	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteDeptInfo" parameterType="int">
+		DELETE FROM departments
+		WHERE department_id = #{id}
+	</delete>
 </mapper>

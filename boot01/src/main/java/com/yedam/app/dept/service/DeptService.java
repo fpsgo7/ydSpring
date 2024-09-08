@@ -15,5 +15,5 @@ public interface DeptService {
 	public Map<String, Object> deptUpdate(DeptVO deptVO);
 	
 	// 삭제
-	
+	public Map<String, Object> deptDelete(int empId);
 }
