@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yedam.app.dept.service.DeptService;
 import com.yedam.app.dept.service.DeptVO;
@@ -27,7 +28,13 @@ public class DeptController {
 		return "dept/list";
 	}
 	// 단건 조회
-	
+	@GetMapping("deptInfo")
+	public String deptInfo(DeptVO deptVO
+						,Model model) {
+		DeptVO dept = deptService.deptInfo(deptVO);
+		model.addAttribute("dept",dept); // 페이지에 전달
+		return "dept/info";
+	}
 	// 등록 - 페이지
 	
 	// 등록 - 처리

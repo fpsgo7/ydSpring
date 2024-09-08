@@ -23,4 +23,9 @@ public class DeptServiceImpl implements DeptService{
 		return deptMapper.selectDeptAll();
 	}
 
+	@Override
+	public DeptVO deptInfo(DeptVO deptVO) {
+		return deptMapper.selectDeptInfo(deptVO);
+	}
+
 }

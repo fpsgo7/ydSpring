@@ -8,7 +8,7 @@ public interface DeptMapper {
 	// 전체조회
 	public List<DeptVO> selectDeptAll();
 	// 단건 조회
-	
+	public DeptVO selectDeptInfo(DeptVO deptVO);
 	// 등록
 	
 	// 수정
