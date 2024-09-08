@@ -28,4 +28,11 @@ public class DeptServiceImpl implements DeptService{
 		return deptMapper.selectDeptInfo(deptVO);
 	}
 
+	@Override
+	public int deptInsert(DeptVO deptVO) {
+		// 부서번호를 반환하기위한 작업
+		int result = deptMapper.insertDeptInfo(deptVO);
+		return result == 1 ? deptVO.getDepartmentId() : -1;
+	}
+
 }

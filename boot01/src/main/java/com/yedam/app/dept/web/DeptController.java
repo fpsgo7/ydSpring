@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.yedam.app.dept.service.DeptService;
 import com.yedam.app.dept.service.DeptVO;
@@ -36,9 +36,23 @@ public class DeptController {
 		return "dept/info";
 	}
 	// 등록 - 페이지
-	
+	@GetMapping("deptInsert")
+	public String deptInsertForm(){
+		return "dept/insert";
+	}
 	// 등록 - 처리
-	
+	@PostMapping("deptInsert")
+	public String deptInsertProcess(DeptVO deptVO) {
+		int id = deptService.deptInsert(deptVO);
+		System.out.println(id);
+		String url = null;
+		if(id > -1) {
+			url = "redirect:deptInfo?departmentId=" + id;
+		}else {
+			url = "redirect:deptList";
+		}
+		return url;
+	}
 	// 수정 - 페이지
 	
 	// 수정 - 처리

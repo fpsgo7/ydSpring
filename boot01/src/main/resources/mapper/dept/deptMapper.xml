@@ -20,4 +20,32 @@
 		FROM departments
 		WHERE department_id = #{departmentId}
 	</select>
+	
+	<!-- 등록 -->
+	<insert id = "insertDeptInfo" parameterType="DeptVO">
+		<selectKey keyProperty="departmentId" resultType="Integer" order="BEFORE">
+			SELECT NVL( MAX(department_id) ,0)+10
+			FROM departments
+		</selectKey>
+		INSERT INTO  departments (
+			department_id
+			,department_name
+			<if test="managerId > 0" >
+				,manager_id
+			</if>
+			<if test="locationId > 0" >
+				,location_id
+			</if>
+			)
+		VALUES (
+			#{departmentId}
+			,#{departmentName}
+			<if test="managerId > 0" >
+				,#{managerId}
+			</if>
+			<if test="locationId > 0" >
+				,#{locationId}
+			</if>
+		)
+	</insert>
 </mapper>

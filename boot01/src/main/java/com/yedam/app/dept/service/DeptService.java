@@ -8,6 +8,7 @@ public interface DeptService {
 	// 단건 조회
 	public DeptVO deptInfo(DeptVO deptVO);
 	// 등록
+	public int deptInsert(DeptVO deptVO);
 	
 	// 수정
 	

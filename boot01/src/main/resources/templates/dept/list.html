@@ -26,6 +26,9 @@
       </tbody>
     </table>
   </div>
+  <div>
+    <button type="button" th:onclick="|location.href='@{/deptInsert}'|">등록</button>
+  </div>
   <script>
   	const context = $('meta[name="ctxPath"]').attr('value');
   	$('tbody > tr').on('click',function(event){

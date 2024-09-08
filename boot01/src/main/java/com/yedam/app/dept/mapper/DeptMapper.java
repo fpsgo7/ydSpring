@@ -10,6 +10,7 @@ public interface DeptMapper {
 	// 단건 조회
 	public DeptVO selectDeptInfo(DeptVO deptVO);
 	// 등록
+	public int insertDeptInfo(DeptVO deptVO);
 	
 	// 수정
 	
