@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="Content">
+<head>
+  <meta charset='utf-8'>
+  <title>Form 방식</title>
+</head>
+<body>
+  <!-- form으로 데이터를 보낼경우 예
+   Content-Disposition: form-data; 
+   name="file"; filename="포르자.jfif"
+   Content-Type: image/jpeg-->
+  <form th:action="@{/uploadForm}" method="post"
+    enctype="multipart/form-data">
+    <!-- multiple을 추가하면 여러 파일을 추가할 수 있다. -->
+    <input type="file" name="files" multiple>
+    <button type="submit">저장</button>
+  </form>
+</body>
+</html>
