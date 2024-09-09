@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>AJAX</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<meta name="ctxPath" th:value="${contextPath}">
 </head>
 <body>
 	<div>
@@ -11,6 +12,7 @@
 		<button class="uploadBtn">upload</button>
 	</div>
 	<script>
+		const context = $('meta[name="ctxPath"]').attr('value');
 		$('.uploadBtn').on('click', function(event){
 			let formData = new FormData();
 			// 유사) jQuery.serializeArray();
@@ -44,7 +46,8 @@
 			})
 			.done(result => {
 				for (let image of result){
-					//let imgTag = `<img src='/yedam/images/${image}' style="width : 50%;">`;
+					// contextPath에대한 공통변수도 사용하자
+					let imgTag = `<img src='${context}/imgs/${image}' style="width : 50%;">`;
 					$('div').append(imgTag);
 				}
 			})
