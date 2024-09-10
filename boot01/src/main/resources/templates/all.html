@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
   <meta charset='utf-8'>
   <title>all</title>
@@ -7,9 +9,21 @@
 <body>
 	<h1>메인 페이지 입니다.</h1>
 	<ul>
-    <li><a th:href="@{/user}">일반 사용자용 페이지로 </a></li>
-    <li><a th:href="@{/admin}">관리자 전용 페이지로</a></li>
+    <li>
+    	<a th:href="@{/user}">일반 사용자용 페이지로 </a>
+    </li>
+    <!-- 권한 체크 (ADMIN 권한 체크) -->
+    <li sec:authorize="hasRole('ADMIN')">
+    	<a th:href="@{/admin}">관리자 전용 페이지로</a>
+    </li>
   </ul>
+  <!-- 권한 체크 (로그인 되있는지 체크) -->
+  <th:block sec:authorize="isAuthenticated()">
+	  <!-- sec:authentication 로부터 정보가겨오기 -->
+	  <p sec:authentication="name"/>
+	  <p sec:authentication="principal.username"/>
+	  <p sec:authentication="principal.authorities"/>
+  </th:block>
   <form th:action="@{/logout}" method="post">
     <button type="submit">로그아웃</button>
   </form>
