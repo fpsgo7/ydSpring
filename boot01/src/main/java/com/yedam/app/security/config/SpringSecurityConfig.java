@@ -20,27 +20,27 @@ public class SpringSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean // 메모리상 인증정보 등록 => 테스트 전용
-	InMemoryUserDetailsManager inMemoryUserDetailsService() {
-		// UserDetails 시큐리티 의 VO같은 존재
-		// user1 회원 추가
-		UserDetails user = User.builder()// builder 패턴 사용
-				.username("user1")
-				// 암호화된 비밀번호값을 대입한다.
-				.password(passwordEncoder().encode("1234"))
-				.roles("USER")// ROLE_USER <-- 강제로 ROLE_ 가 붙여진다.
-				//.authorities("ROLE_USER") // ROLE_가 강제로 붙여지지 않는다는 차이가 있다.
-				.build();
-		//  admin 회원 추가
-		UserDetails admin = User.builder()// builder 패턴 사용
-				.username("admin1")
-				// 암호화된 비밀번호값을 대입한다.
-				.password(passwordEncoder().encode("1234"))
-				.roles("ADMIN","USER")// ROLE_USER <-- 강제로 ROLE_ 가 붙여진다.
-				.build();
-		// 매개값을 여러개 주어 여러 회원을 만들수 있다.
-		return new InMemoryUserDetailsManager(user,admin);
-	}
+//	@Bean // 메모리상 인증정보 등록 => 테스트 전용
+//	InMemoryUserDetailsManager inMemoryUserDetailsService() {
+//		// UserDetails 시큐리티 의 VO같은 존재
+//		// user1 회원 추가
+//		UserDetails user = User.builder()// builder 패턴 사용
+//				.username("user1")
+//				// 암호화된 비밀번호값을 대입한다.
+//				.password(passwordEncoder().encode("1234"))
+//				.roles("USER")// ROLE_USER <-- 강제로 ROLE_ 가 붙여진다.
+//				//.authorities("ROLE_USER") // ROLE_가 강제로 붙여지지 않는다는 차이가 있다.
+//				.build();
+//		//  admin 회원 추가
+//		UserDetails admin = User.builder()// builder 패턴 사용
+//				.username("admin1")
+//				// 암호화된 비밀번호값을 대입한다.
+//				.password(passwordEncoder().encode("1234"))
+//				.roles("ADMIN","USER")// ROLE_USER <-- 강제로 ROLE_ 가 붙여진다.
+//				.build();
+//		// 매개값을 여러개 주어 여러 회원을 만들수 있다.
+//		return new InMemoryUserDetailsManager(user,admin);
+//	}
 	
 	// 스프링 설정 필터 체인
 	@Bean
@@ -68,7 +68,9 @@ public class SpringSecurityConfig {
 					.logoutSuccessUrl("/all")
 					.invalidateHttpSession(true) 
 		);
-		
+		// csrf 비활성화 (개발 동안만 사용)
+		http
+			.csrf(csrf-> csrf.disable());
 		return http.build();
 	}
 	
