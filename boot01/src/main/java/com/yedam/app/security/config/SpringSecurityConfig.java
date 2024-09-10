@@ -36,7 +36,7 @@ public class SpringSecurityConfig {
 				.username("admin1")
 				// 암호화된 비밀번호값을 대입한다.
 				.password(passwordEncoder().encode("1234"))
-				.roles("ADMIN")// ROLE_USER <-- 강제로 ROLE_ 가 붙여진다.
+				.roles("ADMIN","USER")// ROLE_USER <-- 강제로 ROLE_ 가 붙여진다.
 				.build();
 		// 매개값을 여러개 주어 여러 회원을 만들수 있다.
 		return new InMemoryUserDetailsManager(user,admin);
@@ -52,16 +52,22 @@ public class SpringSecurityConfig {
 				-> authorize
 				.requestMatchers("/","/all").permitAll() // permitAll() 모든 권한 허가
 				// 권한이 없다면 403 오류가 발생한다.
-				.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")// 여러 권한조건을 넣고 싶을때 사용
-				//.requestMatchers("/user/**").hasRole("USER")// ROLE_ 은 앞에 알아서 붙여준다.
+				//.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")// 여러 권한조건을 넣고 싶을때 사용
+				.requestMatchers("/user/**").hasRole("USER")// ROLE_ 은 앞에 알아서 붙여준다.
 				.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")// 규칙명을 풀네임으로 작성해야한다.
 				.anyRequest().authenticated() // 인증 된 유저에게 나머지에 대하여 허가
 		);
 		
-		// 로그인 성공시 와, 로그아웃 성공시 설정
+		// 폼 로그인 관련 설정
 		http
-			.formLogin(formlogin ->  formlogin.defaultSuccessUrl("/all"))
-			.logout(logout -> logout.logoutSuccessUrl("/all"));
+			.formLogin(formlogin ->  formlogin.defaultSuccessUrl("/all"));
+		
+		// 로그아웃 설정
+		http
+			.logout(logout -> logout
+					.logoutSuccessUrl("/all")
+					.invalidateHttpSession(true) 
+		);
 		
 		return http.build();
 	}
