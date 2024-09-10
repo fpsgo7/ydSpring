@@ -5,6 +5,8 @@
 	  layout:fragment="Content">
 <head>
   <meta charset='utf-8'>
+  <meta name = "_csrf_header" th:value="${_csrf.headerName}"/>
+  <meta name = "_csrf" th:value="${_csrf.token}"/>
   <title>departmentInfo</title>
 </head>
 <body>
