@@ -1,6 +1,7 @@
 package com.yedam.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -18,21 +19,21 @@ public class BoardMapperTest {
 	@Autowired
 	private BoardMapper boardMapper;
 	
-	//@Test
-	// builder을 제거해서 이제 몼슨다.
-//	@DisplayName("전체 내용 등록하기")
-//	public void insertBoard1() {
-//		BoardVO boardVO = BoardVO.builder()
-//				.title("title")
-//				.contents("contents")
-//				.writer("writer")
-//				.regdate(new Date())
-//				.image("image")
-//				.build();
-//		
-//		int result = boardMapper.insertBoardInfo(boardVO);
-//		assertEquals(result,1);
-//	}
+	@Test
+	@DisplayName("전체 내용 등록하기 와 selectKey 기능 확인하기")
+	public void insertBoard1() {
+		BoardVO boardVO = new BoardVO();
+		boardVO.setTitle("1");
+		boardVO.setContents("2");
+		boardVO.setRegdate(new Date());
+		boardVO.setWriter("3");
+		// bno필드는 채우지 않았다.
+		System.out.println(boardVO.getBno());// null 예상
+		int result = boardMapper.insertBoardInfo(boardVO);
+		assertEquals(result,1);
+		System.out.println(boardVO.getBno());// 값이 채워짐
+		assertNotNull(boardVO.getBno());// selectKey로 값을 가져온다.
+	}
 	
 	//@Test 
 	@DisplayName("전체 조회하기")
