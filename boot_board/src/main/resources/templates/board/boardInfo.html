@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+</head>
+<body>
+  <div class="text-center">
+    <table class="table">
+      <tr>
+        <th>번호</th>
+        <td>[[${board.bno}]]</td>
+      </tr>
+      <tr>
+        <th>제목</th>
+        <td>[[${board.title}]]</td>
+      </tr>
+      <tr>
+        <th>내용</th>
+        <td>[[${board.contents}]]</td>
+      </tr>
+      <tr>
+        <th>작성자</th>
+        <td>[[${board.writer}]]</td>
+      </tr>
+      <tr>
+        <th>첨부파일</th>
+        <td>
+          <img th:src="@{|/images/${board.image}|}" alt="noImage"  width="100px" height="100px">
+          <!-- 또다른 방법으로 pathvaliable 방식으로 볼 수 있다.
+           경로에 {변수명} 변수를 추가하며 여기에 (변수명=${값})
+           을 채우는 방식이다. 교수님 방식-->
+          <img th:src="@{/images/{file}(file=${board.image})}" alt="noImage"  width="100px" height="100px">
+        </td>
+      </tr>
+      <tr>
+        <th>작성일</th>
+        <td>[[${#dates.format(board.regdate,"yyyy/MM/dd")}]]</td>
+      </tr>
+    </table>
+    <button type="button"
+      th:onclick="|location.href='@{/boardUpdate(bno=${board.bno})}'|">수정</button>
+    <button type="button"
+      th:onclick="|location.href='@{/boardList}'|">목록</button>
+    <button type="button"
+      th:onclick="|location.href='@{/boardDelete(bno=${board.bno})}'|"
+    >삭제</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+</head>
+<body>
+  <div class="text-center"></div>
+		<form name="updateForm" th:object="${board}">
+			<table class="table">
+				<tr>
+					<th>번호</th>
+					<td><input type="number" th:field="*{bno}"readonly></td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td><input type="text" th:field="*{title}"></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td><input type="text" th:field="*{contents}"></td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td><input type="text" th:field="*{writer}"></td>
+				</tr>
+				<tr>
+					<th>첨부파일</th>
+					<td><input type="text" th:field="*{image}"></td>
+				</tr>
+				<!-- <tr>
+					<th>작성일</th>
+					<td>
+						<input type="text" name="${board.regdate}" 
+						th:value="${#dates.format(board.regdate,'yyyy/MM/dd')}"
+						placeholder="yyyy/MM/dd">
+					</td>
+				</tr> -->
+				<tr>
+					<td colspan="2">
+						<button type="button" id="updateBtn">저장</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+  </div>
+	<script>
+		$('#updateBtn').on('click', updateAjax);
+
+		function updateAjax(event){
+			// 1) 보낼 데이터 가져오기
+			let dataObj = getFormData();
+			// 2) AJAX 요청
+			$.ajax("boardUpdate",{
+				type : 'post', // method
+				// json 방식 : @RequestBody
+        contentType : 'application/json',
+        data:JSON.stringify(dataObj)
+			})
+			.done((data)=>{
+				if(data.result){
+					alert("성공적으로 수정되었습니다.");
+				}else{
+					alert("수정되지 않았습니다.");
+				}
+			})
+			.fail((err)=>console.log(err));
+		}
+
+		// form 태그로부터 정보를 가져온다.(배열 방식으로)
+		function getFormData(){
+			let formAry = $('form[name="updateForm"]').serializeArray();
+
+			// 배열을 객체로 바꾸기
+			let formObj = {};
+			$.each(formAry, function(idx,tag){
+				formObj[tag.name] = tag.value; 
+			});
+			return formObj;
+		}
+	</script>
+</body>
+</html>

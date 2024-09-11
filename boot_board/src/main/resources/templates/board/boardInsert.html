@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/default_layout}"
+	layout:fragment="Content">
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+</head>
+<body>
+  <div class="text-center">
+    <h3>게시글 등록</h3>
+    <form th:action="@{/boardInsert}" method="post" name="insertForm">
+      <table class="table">
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="title"></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="contents"></textarea></td>
+        </tr>
+        <tr>
+          <th>작성자</th>
+          <td><input type="text" name="writer"></td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td><input type="text" name="image"></td>
+        </tr>
+        <tr>
+          <th>작성일</th>
+          <!-- 데이트입력할떄 2024/01/01 형태로 입력해야한다.
+            type="date" 일경우에는 2024-01-01 형태로 입력되기 때문에
+            여기서 값처리하거나 서버상에서 값처리가 필요해진다. 
+          -->
+          <td><input type="text" name="regdate" placeholder="yyyy/MM/dd"></td>
+        </tr>
+      </table>
+      <button type="submit">등록</button>
+    </form>
+  </div>
+  <script>
+    // submit을 하기 전 제목 , 작성자, 작성일자를 확인한다.
+    $(insertForm).on('submit', boardInsertHandler);
+
+    function boardInsertHandler(event){
+      // 진행되던 이벤트를 중단시킨다.
+      // 여기서는 submit 이 중단된다.
+      event.preventDefault();
+
+      let title = $('form [name="title"]');
+      // input의 value는 기본적으로 공백 값을 가지고 있다.
+      if(title.val() == ''){
+        alert('제목이 입력되지 않았습니다.');
+        title.focus();
+        return; // 함수 종료시킨다.
+      }
+      let writer = $('form [name="writer"]');
+      if(writer.val() == ''){
+        alert('작성자가 입력되지 않았습니다.');
+        writer.focus();
+        return; // 함수 종료시킨다.
+      }
+      let regdate = $('form [name="regdate"]');
+      if(regdate.val() == ''){
+        alert('작성자가 입력되지 않았습니다.');
+        regdate.focus();
+        return; // 함수 종료시킨다.
+      }
+
+      alert("게시글을 등록합니다.");
+      insertForm.submit();// 멈춘 submit 이벤트를 실행시킨다.
+    }
+  </script>
+</body>
+</html>
