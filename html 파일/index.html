@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /*그룹선택자 사용*/
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    /* 
+    tip : 이벤트에서는 this를 권장하지 않는다.(호출하는 환경에따라 
+      달라질 수 도 있다.)
+    이벤트 객체 : 이벤트 핸들러의 매개변수
+    tip : 버튼같이 확실한 이벤트연결이 필요하다면 ID 작업이 필요하다.
+    -- 필드
+    target : 고정값(이벤트 버블링이 일어나도 고정됨)
+      그래서 실제 이벤트가 발생한 태그가된다.
+    currentTarget : 유동값(이벤트 버블링에 따라 움직임)
+      그래서 이벤트 버블링이 진행 중인 태그
+    
+    -- 메소드
+    preventDefault() : 태그의 기본 핸들러 일시정지(from,태그)
+    stopPropagation() : 이벤트 버블링 멈춤
+    */
+    // DOMContentLoded 이벤트로 dom 이 완성되면 실행된다.
+    // 대체로 이벤트를 작성하는 코드에 사용된다.
+    document.addEventListener('DOMContentLoaded',function(){
+      let btns = document.getElementsByTagName('button');
+      btns[0].addEventListener('click',insertTrTag);
+      //btns[1].addEventListener('click',ajaxData);
+      document.getElementById('ajaxBtn')
+        .addEventListener('click',ajaxData);
+      // 이미 있는 대상에서만 적용할 수 있다.
+      // 새로 생성된 tr에 대해서는 이벤트를 등록할 수 없다.
+      let trList = document.querySelectorAll('tbody >tr');
+      for(let tr of  trList){
+        tr.addEventListener('click',function(e){
+          console.log('target tag', e.target);
+          console.log('currentTarget tag', e.currentTarget);
+          tr.style.backgroundColor = 'skyblue';
+
+        })
+      }
+    });
+    function insertTrTag(event){
+      let trTag = document.createElement('tr');
+      // 태그를 생성하는 시점 이벤트를 등록
+      trTag.addEventListener('click',function(e){
+        if(e.target.tagName=='INPUT') return;
+        e.currentTarget.style.backgroundColor = 'lightgray';
+
+      })
+      // 채크 박스
+      let tdTag = document.createElement('td');
+      let inputTag = document.createElement('input');
+      inputTag.type = 'checkbox';
+      tdTag.append(inputTag);// tdTag의 자식요소로 inputTag가 추가된다.
+      trTag.append(tdTag);
+      // No.
+      tdTag = document.createElement('td');
+      inputTag = document.createElement('input');
+      inputTag.value = getNextNo();
+      inputTag.readOnly = true;
+      tdTag.append(inputTag);
+      trTag.append(tdTag);
+      // 아이디
+      tdTag = document.createElement('td');
+      inputTag = document.createElement('input');
+      inputTag.type = 'text';
+      inputTag.name = 'id';
+      tdTag.append(inputTag);
+      trTag.append(tdTag);
+      // 비밀번호
+      tdTag = document.createElement('td');
+      inputTag = document.createElement('input');
+      inputTag.type = 'password';
+      inputTag.name = 'password';
+      tdTag.append(inputTag);
+      trTag.append(tdTag);
+      // 구분
+      tdTag = document.createElement('td');
+      let selectTag = document.createElement('select');
+      selectTag.name = 'gender';
+      let optionTag = document.createElement('option');
+      optionTag.textContent = '남자';
+      optionTag.value ='Male';
+      selectTag.append(optionTag);
+      optionTag = document.createElement('option');
+      optionTag.textContent = '여자';
+      optionTag.value ='Female';
+      selectTag.append(optionTag);
+      tdTag.append(selectTag);
+      trTag.append(tdTag);
+      // 이름
+      tdTag = document.createElement('td');
+      inputTag = document.createElement('input');
+      inputTag.type = 'text';
+      inputTag.name = 'name';
+      tdTag.append(inputTag);
+      trTag.append(tdTag);
+      // 가입날짜
+      tdTag = document.createElement('td');
+      inputTag = document.createElement('input');
+      inputTag.type = 'text';
+      inputTag.name = 'joinDate';
+      tdTag.append(inputTag);
+      trTag.append(tdTag);
+
+      // console.log(trTag);
+      let tbody = document.querySelector('tbody');
+      tbody.append(trTag);
+    }
+    function getNextNo(){
+      let noList = document.querySelectorAll('tbody > tr >  td:nth-of-type(2)');
+      
+      return ('00' + (parseInt(noList[noList.length-1].textContent) + 1)).slice(-3);
+    };
+    function ajaxData(event){
+      // 1) 보낼 데이터를 선택
+      let userAray  = getCheckedUsers();
+      console.log(userAray);
+      // 2) AJAX를 이용해서 서버에 전송
+      // -1) GET Method + QueryString(단건)
+      let queryString = new URLSearchParams(userAray[0]).toString();
+      // http://localhost:8099/getAjax?id=값&password=값&gender=값&name=값&joinDate=값 이날라간다.
+      fetch('http://localhost:8099/getAjax?'+queryString) // 통신 설정
+      // 받은 데이터 Parsing (fromData<- 멑리 미디어 파일, text <- 키가 없는대상)
+      .then(response => response.json()) // 키와값 json() 대부분 사용
+      .then(result =>{
+        console.log('-1', result);
+      }) // 실제 받은 데이터 처리
+      .catch(err => console.log(err));// 통신상 에러 처리
+      
+      // -2) Post Method + QueryString(단건)
+      fetch('http://localhost:8099/postAjax',{ // url 작성
+        method : 'post',// http 메서드
+        body : new URLSearchParams(userAray[0]) // 데이터 (QueryString)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log('-2', result);
+      })
+      .catch(err => console.log(err));
+      
+      // -3) Post Method + JSON(단건)
+      fetch('http://localhost:8099/jsonAjax',{ // url 작성
+        method : 'post',// http 메서드
+        headers : {
+          'Content-type' : 'application/json'
+        },
+        body : JSON.stringify(userAray[0]) // 데이터 (QueryString)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log('-3', result);
+      })
+      .catch(err => console.log(err));
+
+      // -4) Post Method + JSON(배열)
+      fetch('http://localhost:8099/jsonListAjax',{ // url 작성
+        method : 'post',// http 메서드
+        headers : {
+          'Content-type' : 'application/json'
+        },
+        body : JSON.stringify(userAray) // 데이터 (QueryString)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log('-4', result);
+      })
+      .catch(err => console.log(err));
+    }
+
+    function getCheckedUsers(){
+      // 1) 사용자가 선택한 대상을 선별
+      let chList 
+      = Array.from(document.querySelectorAll('input:checked'))// 채크된 대상 가져옴
+        .filter(tag => tag.id != 'allChk');// 필터로  allChk 대상을 거름
+      
+      let aray = [];
+      chList.forEach(inputTag => {
+        let trTag = inputTag.closest('tr');// closest으로 input의 조부모를 찾았다.
+        let dataTag = trTag.querySelectorAll('input, select');
+        let obj = {};
+        for(tag of dataTag){
+          // name 속성이 없는 대상은 데이터를 추가하지 않는다.
+          if(tag.name== '') continue;
+          obj[tag.name] = tag.value;
+        }
+        console.log(obj);
+        aray.push(obj);
+      });
+      return aray;
+    }
+  </script>
+  <div>
+    <button type = "button">+</button>
+    <button type="button" id="ajaxBtn">전송</button>
+  </div>
+  <div>
+    <table class="list user">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="allChk"></th>
+          <th>No.</th>
+          <th>아이디</th>
+          <th>비밀번호</th>
+          <th>구분</th>
+          <th>이름</th>
+          <th>가입날짜</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" disabled></td>
+          <td>001</td>
+          <td>Anony</td>
+          <td>12434</td>
+          <td>
+            <select>
+              <option value="Male" selected>남자</option>
+              <option value="Female">여자</option>
+            </select>
+          </td>
+          <td>한지수</td>
+          <td>2024-10-31</td>
+        </tr>
+      </tbody>
+    </table>
+  </dib>
+  <script>
+    // 자바스크립트 DOM 탐색
+    /*
+      -- 메소드
+      doucment 라는 객체에 속하기 때문에 함수라하지 않는다.
+      
+      docuemnt.getElementById()
+      document.getElementsByTagName()
+      document.getElementsByName()
+      document.getElementsByClassName()
+      -- Selector : 선택자를 기반으로 태그를 탐색한다.
+      document.querySelector()
+      document.querySelectorAll()
+
+      -- CSS selector
+      # : id 속성
+      . : class 속성
+      tagName : tag 이름
+      [attribute] : 일반속성
+      [attibute='value'] : 특정 속성 값이 value인경우 
+      [attibute*='value'] : 특정 속성 값이 value을 포함하는 경우
+      
+      :checked : checked 속성이 true인 태그 검색
+      공백 : 하위요소
+      공백이 없는 경우 : 해당 태그가 특정 속성값을 가지는 경우 
+        (ex, table.className)<- 테이블 태그에서 클래스 가 className 인경우
+      > : 자식요소를 검색
+      
+      -- 관계 관련 속성
+      부모 : parentElement
+      자식 : childeren, firstElementChild, lastElementChild
+      형제 : previousElementSibling, nextElementSibling
+    */
+    // 둘다 같은 테이블을 찾는다.
+    // 태이블 찾기 1
+    let firstTable = document.getElementsByTagName('table');
+    //console.log(firstTable[0].className);
+    //console.log(firstTable[0].classList);// 클래스를 배열형태로 가져오기
+    // 테이블 찾기 2 태이블 태그의 클래스 속성이 list을 포함하는경우
+    let secondTable = document.querySelector('table[class*="list"]');
+    //console.log(secondTable);
+    // 1) table 태그가 가지고 있는 class 속성의 user를 삭제
+    firstTable[0].classList.remove('user');
+    // 2) 지금 적용된 border를 변경
+    let tags = document.querySelectorAll('table, th, td');
+    for(let tag of tags){
+      tag.style.border = '1px solid blue';
+    }
+    // 3) 아이디 Anony를 가져오는 태그 탐색
+    let idTag = secondTable.querySelector('td:nth-of-type(3)');
+    idTag = document.querySelector('table td:nth-of-type(3)'); // 위와 같다.
+    //console.log(idTag.textContent);// 순수하게 택스트를 가져오는 경우
+    // 4) 현재 선택된 Select값을 가져오는 태그 탐색
+    let selected = document.querySelector('table select').value;
+    //console.log(selected);
+    selectedOption = document
+      .querySelector('table select > option:checked');
+    //console.log(selectedOption.textContent);
+  </script>
+</body>
+</html>
