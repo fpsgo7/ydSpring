@@ -55,7 +55,7 @@ public class SpringSecurityConfig {
 				//.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")// 여러 권한조건을 넣고 싶을때 사용
 				.requestMatchers("/user/**").hasRole("USER")// ROLE_ 은 앞에 알아서 붙여준다.
 				.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")// 규칙명을 풀네임으로 작성해야한다.
-				.anyRequest().authenticated() // 인증 된 유저에게 나머지에 대하여 허가
+				.anyRequest().permitAll() // 인증 된 유저에게 나머지에 대하여 허가
 		);
 		
 		// 폼 로그인 관련 설정
