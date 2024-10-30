@@ -11,8 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Entity
+@Entity @Getter @Builder @NoArgsConstructor @AllArgsConstructor
 public class Customer {
 	
 	  @Id
@@ -23,33 +28,7 @@ public class Customer {
 	  private String firstName;
 	  private String lastName;
 	  
-	  @OneToMany(fetch = FetchType.EAGER)
-	  @JoinColumn(name = "address_id")
-	  private List<Address> addresses = new ArrayList<>();
-
-	  protected Customer() {}
-
-	  public Customer(String firstName, String lastName) {
-	    this.firstName = firstName;
-	    this.lastName = lastName;
-	  }
-
-	  @Override
-	  public String toString() {
-	    return String.format(
-	        "Customer[id=%d, firstName='%s', lastName='%s']",
-	        id, firstName, lastName);
-	  }
-
-	  public Long getId() {
-	    return id;
-	  }
-
-	  public String getFirstName() {
-	    return firstName;
-	  }
-
-	  public String getLastName() {
-	    return lastName;
-	  }
+	  @OneToMany(mappedBy = "customer")
+	  List<Address> address;
+	  
 }
