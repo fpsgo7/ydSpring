@@ -28,3 +28,10 @@ replay_pid*
 .metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
 .metadata/.plugins/org.eclipse.m2e.core/workspaceState.ser
 SpringProject/target/m2e-wtp/web-resources/META-INF/maven/SpringProject/SpringProject/pom.properties
+.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs
+.metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
+.metadata/.plugins/org.eclipse.m2e.core/workspaceState.ser
+.metadata/version.ini
+app/target/classes/META-INF/maven/com.yedam/app/pom.properties
